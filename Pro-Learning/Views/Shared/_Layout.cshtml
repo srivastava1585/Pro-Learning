@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#2196F3">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="" />
+    <meta name="theme-color" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Hello World" />
+    <meta name="msapplication-TileImage" content="~/Images/hello-icon-144.png" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/Images/hello-icon-152.png">
+    <link rel="manifest" href="~/manifest.json">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- start header -->
+        <header>
+            <div class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html"><img src="Images/logo.png" alt="logo" /></a>
+                    </div>
+                    <div class="navbar-collapse collapse ">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="courses.html">Courses</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header><!-- end header -->
+        @RenderBody()
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="widget">
+                            <h5 class="widgetheading">Our Contact</h5>
+                            <address>
+                                <strong>HCL Technologies</strong><br>
+                                Sector-126,<br>
+                                Pin-201301 Noida India.
+                            </address>
+                            <p>
+                                <i class="icon-phone"></i> (012) 011 - 2356890 <br>
+                                <i class="icon-envelope-alt"></i> email@hcl.com
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="widget">
+                            <h5 class="widgetheading">Quick Links</h5>
+                            <ul class="link-list">
+                                <li><a href="#">Courses</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="widget">
+                            <h5 class="widgetheading">Latest posts</h5>
+                            <ul class="link-list">
+                                <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
+                                <li><a href="#">Pellentesque et pulvinar enim. Quisque at tempor ligula</a></li>
+                                <li><a href="#">Natus error sit voluptatem accusantium doloremque</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="widget">
+                            <h5 class="widgetheading">Recent News</h5>
+                            <ul class="link-list">
+                                <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
+                                <li><a href="#">Pellentesque et pulvinar enim. Quisque at tempor ligula</a></li>
+                                <li><a href="#">Natus error sit voluptatem accusantium doloremque</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sub-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>
+                                    <span>&copy; All right reserved.</span><br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/main.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
