@@ -1,7 +1,17 @@
 var cacheName = 'Static-pwa-v1';
 var cacheNameD = 'Dynamic-pwa-v1';
 var filesToCache = [
-    '/'
+    "/",
+    "/Scripts/bootstrap.js",
+    "/Scripts/respond.js",
+    "/Scripts/jquery.fancybox.pack.js",
+    "/Scripts/jquery.fancybox-media.js",
+    "/Scripts/jquery.flexslider.js",
+    "/Scripts/animate.js",
+    "/Scripts/custom.js",
+    "/Content/bootstrap.css",
+    "/Content/style.css",
+    "/Scripts/jquery.easing.1.3.js"
 ];
 
 

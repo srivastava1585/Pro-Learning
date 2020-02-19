@@ -9,7 +9,7 @@ namespace Pro_Learning
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.js",
                         "~/Scripts/jquery.easing.1.3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
