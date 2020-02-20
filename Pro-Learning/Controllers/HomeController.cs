@@ -1,9 +1,12 @@
-﻿using PWA_WEB.Models;
+﻿using Newtonsoft.Json;
+using PWA_WEB.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Pro_Learning.Controllers
 {
@@ -28,59 +31,53 @@ namespace Pro_Learning.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult AddCourses(CourseDetail obj)
+        {
+            string path = Server.MapPath("~/App_Data/");
+            string fullpath = Path.Combine(path, "course.json");
+            string coursejson = System.IO.File.ReadAllText(fullpath).TrimStart('[').TrimEnd(']');
+            Courses course = JsonConvert.DeserializeObject<Courses>(coursejson);
 
+            course.CourseList.Add(obj);
+            // Pass the "personlist" object for conversion object to JSON string  
+            string jsondata = new JavaScriptSerializer().Serialize(course);
+
+            // Write that JSON to txt file,  
+            System.IO.File.WriteAllText(path + "course.json", jsondata);
+            TempData["msg"] = "Course is updated successfully.";
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public JsonResult GetAllCourses()
         {
-            List<CourseDetail> courses = new List<CourseDetail>
-           {
-           new CourseDetail{
-                              Id = "1",
-                              Title = "Web Development",
-                              Description = "Web Development Description"
-                              },
-           new CourseDetail{
-                              Id = "2",
-                              Title = "Mobile Development",
-                              Description = "Mobile Development Description"
-                              },
-           new CourseDetail{
-                              Id = "3",
-                              Title = "Responsive Design",
-                              Description = "Responsive Design Description"
-                              },
-           new CourseDetail{
-                              Id = "4",
-                              Title = "Responsive Design -4 ",
-                              Description = "Responsive Design Description -4"
-                              },
-           new CourseDetail{
-                              Id = "5",
-                              Title = "Responsive Design -5",
-                              Description = "Responsive Design Description -5"
-                              },
-           new CourseDetail{
-                              Id = "6",
-                              Title = "Responsive Design -6 ",
-                              Description = "Responsive Design Description -6"
-                              },
-           new CourseDetail{
-                              Id = "7",
-                              Title = "Responsive Design -7",
-                              Description = "Responsive Design Description -7"
-                              },
-           new CourseDetail{
-                              Id = "8",
-                              Title = "Responsive Design -7",
-                              Description = "Responsive Design Description -7"
-                              },
-           new CourseDetail{
-                              Id = "9",
-                              Title = "Responsive Design -8",
-                              Description = "Responsive Design Description -7"
-                              },
-           };
+            //CourseDetail obj = new CourseDetail();
+            //obj.Id = "1";
+            //obj.Title = "Title 1";
+            //obj.Description = "Title 1";
 
-            return Json(courses, JsonRequestBehavior.AllowGet);
+            //Courses course = new Courses();
+            //var courseList = new List<CourseDetail>();
+            //courseList.Add(obj);
+
+            //course.CourseList = courseList;
+            //// Pass the "personlist" object for conversion object to JSON string  
+            //string jsondata = new JavaScriptSerializer().Serialize(course);
+            //string path = Server.MapPath("~/App_Data/");
+            //string fullpath = Path.Combine(path, "course.json");
+            //// Write that JSON to txt file,  
+            //System.IO.File.WriteAllText(fullpath, jsondata);
+
+
+            string path = Server.MapPath("~/App_Data/");
+            string fullpath = Path.Combine(path, "course.json");
+            string coursejson = System.IO.File.ReadAllText(fullpath).TrimStart('[').TrimEnd(']');
+            Courses course = JsonConvert.DeserializeObject<Courses>(coursejson);
+            var courseData = course.CourseList;
+
+            return Json(courseData, JsonRequestBehavior.AllowGet);
         }
     }
 }

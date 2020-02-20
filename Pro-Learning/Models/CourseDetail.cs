@@ -12,4 +12,9 @@ namespace PWA_WEB.Models
         public string Title { get; set; }
         public string Description { get; set; }
     }
+
+    public class Courses
+    {
+        public List<CourseDetail> CourseList { get; set; }
+    }
 }

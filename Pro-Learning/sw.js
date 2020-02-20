@@ -11,10 +11,12 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
-var cacheName = 'Static-pwa-v1';
+var cacheName = 'Pro-Learning-v1';
 
 var filesToCache = [
     "/",
+    "/Account/Login",
+    "/Home/Index",
     "/Scripts/bootstrap.js",
     "/Scripts/respond.js",
     "/Scripts/jquery.fancybox.pack.js",
@@ -39,29 +41,44 @@ self.addEventListener('install', function (e) {
     );
 });
 
-//self.addEventListener('activate', function (event) {
-//    event.waitUntil(
-//      caches.keys().then(function (cacheNames) {
-//          return Promise.all(
-//            cacheNames.filter(function (cacheName) {
-//                // Return true if you want to remove this cache,
-//                // but remember that caches are shared across
-//                // the whole origin
-//            }).map(function (cacheName) {
-//                return caches.delete(cacheName);
-//            })
-//          );
-//      })
-//    );
-//});
-
-/* Serve cached content when offline */
-self.addEventListener('fetch', function (e) {
-    e.respondWith(caches.match(e.request).then(function (response) {
-        return response || fetch(e.request);
-    })
+self.addEventListener('activate', function (event) {
+    event.waitUntil(
+      caches.keys().then(function (cacheNames) {
+          return Promise.all(
+            cacheNames.filter(function (cacheName) {
+                // Return true if you want to remove this cache,
+                // but remember that caches are shared across
+                // the whole origin
+            }).map(function (cacheName) {
+                return caches.delete(cacheName);
+            })
+          );
+      })
     );
 });
+
+/* Serve cached content when offline */
+
+self.addEventListener('fetch', (e) => {
+    e.respondWith(
+      caches.match(e.request).then((r) => {
+          return r || fetch(e.request).then((response) => {
+              return caches.open(cacheName).then((cache) => {
+                  cache.put(e.request, response.clone());
+                  return response;
+              });
+          });
+      })
+    );
+});
+
+
+//self.addEventListener('fetch', function (e) {
+//    e.respondWith(caches.match(e.request).then(function (response) {
+//        return response || fetch(e.request);
+//    })
+//    );
+//});
 //self.addEventListener('fetch', function (event) {
 //    event.respondWith(
 //      caches.open(cacheName).then(function (cache) {
