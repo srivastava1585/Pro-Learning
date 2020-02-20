@@ -1,5 +1,16 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
+
+}
+@using Pro_Learning.Models;
+@{
+    var userrole = string.Empty;
+    if (Session["UserData"] != null)
+    {
+        UserList userData = (UserList)Session["UserData"];
+        userrole = userData.Role;
+    }
 }
 
 <section id="inner-headline">
@@ -20,13 +31,16 @@
                     <div class=""><h3>Courses We Offer</h3><span class="clear spacer_responsive_hide_mobile " style="height:13px;display:block;"></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores quae porro consequatur aliquam, incidunt eius magni provident, doloribus omnis minus temporibus perferendis nesciunt quam repellendus nulla nemo ipsum odit corrupti consequuntur possimus, vero mollitia velit ad consectetur. Alias, laborum excepturi nihil autem nemo numquam, ipsa architecto non, magni consequuntur quam.</div>
                 </div>
             </div>
-            <div class="row">
-                <div id="divAddCourse" class="col-lg-12">
-                    <input type="text" id="txtTitle" />
-                    <input type="text" id="txtDesc" />
-                    <button id="btnSubmit" value="Add Course">Add Course</button>
+            @if (userrole == "Admin")
+            {
+                <div class="row">
+                    <div id="divAddCourse" class="col-lg-12">
+                        <input type="text" id="txtTitle" />
+                        <input type="text" id="txtDesc" />
+                        <button id="btnSubmit" value="Add Course">Add Course</button>
+                    </div>
                 </div>
-            </div>
+            }
             <div class="row" id="divCourseRow1"></div>
             <div class="row" id="divCourseRow2"></div>
             <div class="row" id="divCourseRow3"></div>
@@ -34,12 +48,12 @@
         </section>
     </div>
 
-    @*<div id="token"></div>
-    <div id="notis"></div>
-    <div id="err"></div>*@
+    @*
+        <div id="notis"></div>
+        <div id="err"></div>*@
 </section>
 <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
 <script type="text/javascript">
-    
+
 </script>

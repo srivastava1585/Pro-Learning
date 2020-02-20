@@ -17,11 +17,19 @@
     <title>Pro-Learning</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @using Pro_Learning.Models;
 </head>
 <body>
     <div id="wrapper">
         <!-- start header -->
+        @{
+            var username = string.Empty;
+            if (Session["UserData"] != null)
+            {
+                UserList userData = (UserList)Session["UserData"];
+                username = userData.Username;
+            }
+        }
         <header>
             <div class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -35,6 +43,10 @@
                     </div>
                     <div class="navbar-collapse collapse ">
                         <ul class="nav navbar-nav">
+                            @if (!string.IsNullOrEmpty(username))
+                            {
+                                <li><a>Username: @username</a></li>
+                            }
                             <li class="active"><a href="/">Courses</a></li>
                             <li class="active"><a href="~/Account/Login">Logout</a></li>
                         </ul>
@@ -100,6 +112,7 @@
                                     <span>&copy; All right reserved.</span><br />
                                 </p>
                             </div>
+                            <div id="token"></div>
                         </div>
                     </div>
                 </div>
@@ -116,7 +129,7 @@
 
     <script>
         //MsgElem = document.getElementById("msg")
-        //TokenElem = document.getElementById("token")
+        TokenElem = document.getElementById("token")
         NotisElem = document.getElementById("notis")
         //ErrElem = document.getElementById("err")
         // Initialize Firebase
@@ -144,8 +157,8 @@
                 return messaging.getToken()
             })
             .then(function(token) {
-                //TokenElem.innerHTML = "token is : " + token
-                console.log("token is : " + token);
+                TokenElem.innerHTML = "token is : " + token
+                //console.log("token is : " + token);
             })
             .catch(function (err) {
                 //ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err

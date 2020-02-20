@@ -12,6 +12,7 @@ using Pro_Learning.Models;
 using System.IO;
 using Newtonsoft.Json;
 using PWA_WEB.Models;
+using System.Collections.Generic;
 
 namespace Pro_Learning.Controllers
 {
@@ -60,6 +61,7 @@ namespace Pro_Learning.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Session["UserData"] = null;
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -101,6 +103,8 @@ namespace Pro_Learning.Controllers
 
             if (userData != null)
             {
+                Session["UserData"] = userData;
+
                 return RedirectToAction("Index","Home");
             }
             ModelState.AddModelError("", "Invalid login attempt.");
