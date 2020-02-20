@@ -1,3 +1,16 @@
+importScripts('/firebase-app.js');
+importScripts('/firebase-messaging.js');
+
+// Initialize the Firebase app in the service worker by passing in the
+// messagingSenderId.
+firebase.initializeApp({
+    'messagingSenderId': '979804528771'
+});
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
+
 var cacheName = 'Static-pwa-v1';
 
 var filesToCache = [
@@ -11,10 +24,12 @@ var filesToCache = [
     "/Scripts/custom.js",
     "/Content/bootstrap.css",
     "/Content/style.css",
-    "/Scripts/jquery.easing.1.3.js"
+    "/Scripts/jquery.easing.1.3.js",
+    "/firebase-app.js",
+    "/firebase-messaging.js",
+    "/Scripts/main.js"
+
 ];
-
-
 
 self.addEventListener('install', function (e) {
     e.waitUntil(
@@ -24,21 +39,21 @@ self.addEventListener('install', function (e) {
     );
 });
 
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-      caches.keys().then(function (cacheNames) {
-          return Promise.all(
-            cacheNames.filter(function (cacheName) {
-                // Return true if you want to remove this cache,
-                // but remember that caches are shared across
-                // the whole origin
-            }).map(function (cacheName) {
-                return caches.delete(cacheName);
-            })
-          );
-      })
-    );
-});
+//self.addEventListener('activate', function (event) {
+//    event.waitUntil(
+//      caches.keys().then(function (cacheNames) {
+//          return Promise.all(
+//            cacheNames.filter(function (cacheName) {
+//                // Return true if you want to remove this cache,
+//                // but remember that caches are shared across
+//                // the whole origin
+//            }).map(function (cacheName) {
+//                return caches.delete(cacheName);
+//            })
+//          );
+//      })
+//    );
+//});
 
 /* Serve cached content when offline */
 self.addEventListener('fetch', function (e) {
@@ -58,37 +73,50 @@ self.addEventListener('fetch', function (e) {
 //    );
 //});
 
-self.addEventListener('push', function (e) {
-    var body;
-    if (e.data) {
-        body = e.data.text();
-    } else {
-        body = 'Push message no payload';
-    }
-
-    var options = {
-        body: body,
-        icon: 'images/example.png',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: '1'
-        },
-        actions: [
-          {
-              action: 'explore', title: 'Explore this new world',
-              icon: 'images/checkmark.png'
-          },
-          {
-              action: 'close', title: 'Close',
-              icon: 'images/xmark.png'
-          },
-        ]
+messaging.setBackgroundMessageHandler(function (payload) {
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    // Customize notification here
+    const notificationTitle = 'Background Message Title';
+    const notificationOptions = {
+        body: 'Background Message body.',
+        icon: '/itwonders-web-logo.png'
     };
-    e.waitUntil(
-      self.registration.showNotification('Hello world!', options)
-    );
+
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
 });
+
+//self.addEventListener('push', function (e) {
+//    var body;
+//    if (e.data) {
+//        body = e.data.text();
+//    } else {
+//        body = 'Push message no payload';
+//    }
+
+//    var options = {
+//        body: body,
+//        icon: 'images/example.png',
+//        vibrate: [100, 50, 100],
+//        data: {
+//            dateOfArrival: Date.now(),
+//            primaryKey: '1'
+//        },
+//        actions: [
+//          {
+//              action: 'explore', title: 'Explore this new world',
+//              icon: 'images/checkmark.png'
+//          },
+//          {
+//              action: 'close', title: 'Close',
+//              icon: 'images/xmark.png'
+//          },
+//        ]
+//    };
+//    e.waitUntil(
+//      self.registration.showNotification('Push Notification', options)
+//    );
+//});
 
 self.addEventListener('notificationclick', function (e) {
     var notification = e.notification;
